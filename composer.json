@@ -1,0 +1,31 @@
+{
+  "name": "swoft/swlib",
+  "type": "library",
+  "keywords": [
+    "swoole",
+    "swoft",
+    "swoft-component"
+  ],
+  "description": "Some swoole helpr utils for swoft",
+  "license": "Apache-2.0",
+  "require": {
+    "php": ">7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Swoft\\Swlib\\": "src/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.5"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SwoftTest\\Swlib\\Unit\\": "test/unit/",
+      "SwoftTest\\Swlib\\Testing\\": "test/testing/"
+    }
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit -c phpunit.xml"
+  }
+}
