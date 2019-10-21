@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Swlib;
+namespace Swoft\Swlib;
 
 use Swoft\Helper\ComposerJSON;
 use Swoft\SwoftComponent;

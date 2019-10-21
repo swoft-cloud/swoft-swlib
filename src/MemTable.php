@@ -8,7 +8,7 @@
  * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
  */
 
-namespace Swoft\Swlib\Swoole;
+namespace Swoft\Swlib;
 
 use InvalidArgumentException;
 use RuntimeException;
@@ -25,6 +25,8 @@ use function json_encode;
  */
 class MemTable
 {
+    public const KEY_FIELD = '__key';
+
     /**
      * Swoole memory table instance
      *
@@ -123,7 +125,7 @@ class MemTable
      */
     public function create(): bool
     {
-        if ($this->isCreate()) {
+        if ($this->isCreated()) {
             throw new RuntimeException('Memory table have been created, cannot recreated');
         }
 
@@ -135,6 +137,9 @@ class MemTable
         foreach ($this->columns as $name => [$type, $size]) {
             $this->table->column($name, $type, $size);
         }
+
+        // Append key column for storage key value.
+        $this->table->column(self::KEY_FIELD, Table::TYPE_STRING, 255);
 
         // Create memory table
         $result = $table->create();
@@ -159,9 +164,12 @@ class MemTable
      */
     public function set(string $key, array $data): bool
     {
-        if (!$this->isCreate()) {
+        if (!$this->isCreated()) {
             throw new RuntimeException('Memory table have not been create');
         }
+
+        // Append key column for storage key value.
+        $data[self::KEY_FIELD] = $key;
 
         return $this->getTable()->set($key, $data);
     }
@@ -249,14 +257,22 @@ class MemTable
      ****************************************************************************/
 
     /**
-     * flush table
+     * clear/flush table data
      */
-    // public function flush(): void
-    // {
-    //     foreach ($this->table as $row) {
-    //         $this->table->del($row['key']);
-    //     }
-    // }
+    public function clear(): void
+    {
+        $this->flush();
+    }
+
+    /**
+     * clear/flush table data
+     */
+    public function flush(): void
+    {
+        foreach ($this->table as $row) {
+            $this->table->del($row[self::KEY_FIELD]);
+        }
+    }
 
     /**
      * Restore data from dbFile

@@ -8,7 +8,7 @@
  * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
  */
 
-namespace Swoft\Swlib\Swoole;
+namespace Swoft\Swlib;
 
 use Swoft\Http\Message\ContentType;
 use Swoft\Http\Message\Response;
