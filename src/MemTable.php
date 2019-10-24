@@ -180,7 +180,7 @@ class MemTable
      * @param string $key   Index key
      * @param string $field Filed name of Index
      *
-     * @return array|false Will return an array when success, return false when failure
+     * @return array|false|mixed Will return an array when success, return false when failure
      * @throws RuntimeException
      */
     public function get(string $key, string $field = null)
@@ -257,6 +257,16 @@ class MemTable
      ****************************************************************************/
 
     /**
+     * @param callable $fn
+     */
+    public function each(callable $fn): void
+    {
+        foreach ($this->table as $row) {
+            $fn($row);
+        }
+    }
+
+    /**
      * clear/flush table data
      */
     public function clear(): void
@@ -292,7 +302,9 @@ class MemTable
             $content = file_get_contents($file);
         }
 
-        $this->load((array)json_decode($content, true));
+        if ($content) {
+            $this->load((array)json_decode($content, true));
+        }
     }
 
     /**
@@ -329,7 +341,6 @@ class MemTable
             }
         }
     }
-
 
     /*****************************************************************************
      * Getter/Setter methods
