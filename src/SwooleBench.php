@@ -17,7 +17,7 @@ use const FILTER_VALIDATE_IP;
 /**
  * Class BenchTesting
  *
- * from https://github.com/swoole/swoole-src/blob/master/benchmark/src/Base.php
+ * @link https://github.com/swoole/swoole-src/blob/master/benchmark/src/Base.php
  */
 class SwooleBench
 {

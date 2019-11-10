@@ -41,6 +41,16 @@ class HttpClient
     ];
 
     /**
+     * Global options for request
+     *
+     * [
+     *  'method'   => 'GET',
+     *  'data'     => 'string|array',
+     *  'headers'  => [key => value],
+     *  'cookies'  => [key => value],
+     *  'settings' => [key => value],
+     * ]
+     *
      * @var array
      */
     private $options = [];

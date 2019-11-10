@@ -267,7 +267,7 @@ class MemTable
     }
 
     /**
-     * clear/flush table data
+     * Clear/flush table data
      */
     public function clear(): void
     {
@@ -275,7 +275,7 @@ class MemTable
     }
 
     /**
-     * clear/flush table data
+     * Clear/flush table data
      */
     public function flush(): void
     {
