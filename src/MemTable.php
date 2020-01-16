@@ -19,6 +19,7 @@ use function file_exists;
 use function file_get_contents;
 use function file_put_contents;
 use function json_encode;
+use function property_exists;
 
 /**
  * Class MemTable - an simple memory table base on swoole table
@@ -76,14 +77,19 @@ class MemTable
      * @param string $name
      * @param int    $size
      * @param array  $columns ['field' => ['type', 'size']]
-     *
-     * @throws InvalidArgumentException
+     * @param array  $options
      */
-    public function __construct(string $name = '', int $size = 0, array $columns = [])
+    public function __construct(string $name = '', int $size = 0, array $columns = [], array $options = [])
     {
         $this->setName($name);
         $this->setSize($size);
         $this->setColumns($columns);
+
+        foreach ($options as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
     }
 
     /**

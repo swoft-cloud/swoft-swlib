@@ -17,7 +17,7 @@ final class MemFactory
     /**
      * @param string $name
      * @param int    $size
-     * @param array  $columns
+     * @param array  $columns ['field' => ['type', 'size']]
      *
      * @return MemTable
      */
