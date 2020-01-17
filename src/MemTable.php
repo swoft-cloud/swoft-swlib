@@ -268,7 +268,11 @@ class MemTable
     public function each(callable $fn): void
     {
         foreach ($this->table as $row) {
-            $fn($row);
+            $goon = $fn($row);
+            // stop loop
+            if ($goon === false) {
+                break;
+            }
         }
     }
 

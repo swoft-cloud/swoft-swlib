@@ -10,6 +10,7 @@
 
 namespace Swoft\Swlib;
 
+use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Http\Message\ContentType;
 use Swoft\Http\Message\Response;
 use Swoole\Coroutine\Http\Client;
@@ -26,6 +27,7 @@ use function strtoupper;
 
 /**
  * Class HttpClient - an simple http client base on swoole http coroutine client
+ * @Bean()
  */
 class HttpClient
 {
