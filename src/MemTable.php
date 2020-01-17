@@ -294,12 +294,14 @@ class MemTable
      * Restore data from dbFile
      *
      * @param bool $coRead
+     *
+     * @return int
      */
-    public function restore(bool $coRead = false): void
+    public function restore(bool $coRead = false): int
     {
         $file = $this->dbFile;
         if (!$file || !file_exists($file)) {
-            return;
+            return 0;
         }
 
         if ($coRead) {
@@ -309,21 +311,26 @@ class MemTable
         }
 
         if ($content) {
-            $this->load((array)json_decode($content, true));
+            return $this->load((array)json_decode($content, true));
         }
+
+        return 0;
     }
 
     /**
      * Export memory data to dbFile
      *
      * @param bool $coWrite
+     *
+     * @return int
      */
-    public function dump(bool $coWrite = false): void
+    public function dump(bool $coWrite = false): int
     {
         if (!$file = $this->dbFile) {
-            return;
+            return 0;
         }
 
+        $num  = $this->table->count();
         $data = [];
         foreach ($this->table as $row) {
             $data[] = $row;
@@ -334,18 +341,28 @@ class MemTable
         } else {
             file_put_contents($file, json_encode($data));
         }
+
+        $this->table->destroy();
+        return $num;
     }
 
     /**
      * @param array $data
+     *
+     * @return int
      */
-    public function load(array $data): void
+    public function load(array $data): int
     {
+        $total = 0;
+
         foreach ($data as $row) {
-            if (isset($row['text'])) {
-                $this->table->set($row['text'], $row);
+            if (isset($row[self::KEY_FIELD])) {
+                $total++;
+                $this->table->set($row[self::KEY_FIELD], $row);
             }
         }
+
+        return $total;
     }
 
     /*****************************************************************************
