@@ -9,7 +9,7 @@ use function dirname;
 /**
  * Class AutoLoader
  */
-class AutoLoader // extends SwoftComponent
+class AutoLoader extends SwoftComponent
 {
     /**
      * Get namespace and dir
