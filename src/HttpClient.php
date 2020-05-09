@@ -146,6 +146,9 @@ class HttpClient
         // trans to psr7 response
         $resp = new Response();
         $resp = $resp->withContent($client->body)->withStatus($client->statusCode);
+        $resp = $resp->withHeaders($client->getHeaders());
+
+        $resp->setCookies($client->getCookies());
 
         // close connection
         $client->close();
