@@ -10,6 +10,7 @@
 
 namespace Swoft\Swlib;
 
+use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Http\Message\ContentType;
 use Swoft\Http\Message\Response;
 use Swoole\Coroutine\Http\Client;
@@ -26,6 +27,7 @@ use function strtoupper;
 
 /**
  * Class HttpClient - an simple http client base on swoole http coroutine client
+ * @Bean()
  */
 class HttpClient
 {
@@ -46,14 +48,22 @@ class HttpClient
      * [
      *  'method'   => 'GET',
      *  'data'     => 'string|array',
-     *  'headers'  => [key => value],
-     *  'cookies'  => [key => value],
      *  'settings' => [key => value],
      * ]
      *
      * @var array
      */
     private $options = [];
+
+    /**
+     * @var array [key => value]
+     */
+    private $cookies = [];
+
+    /**
+     * @var array [key => value]
+     */
+    private $headers = [];
 
     /**
      * @var string
@@ -219,14 +229,15 @@ class HttpClient
         /*
          * [key => value]
          */
-        if ($headers) {
+        if ($headers = array_merge($this->headers, $headers)) {
             $client->setHeaders($headers);
         }
 
         /*
          * [key => value]
          */
-        if ($cookies = $options['cookies'] ?? []) {
+        $cookies = $options['cookies'] ?? [];
+        if ($cookies = array_merge($this->cookies, $cookies)) {
             $client->setCookies($cookies);
         }
 
@@ -317,5 +328,37 @@ class HttpClient
     {
         $this->options = $options;
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
+    /**
+     * @param array $headers
+     */
+    public function setHeaders(array $headers): void
+    {
+        $this->headers = $headers;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCookies(): array
+    {
+        return $this->cookies;
+    }
+
+    /**
+     * @param array $cookies
+     */
+    public function setCookies(array $cookies): void
+    {
+        $this->cookies = $cookies;
     }
 }
