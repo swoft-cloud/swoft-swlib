@@ -191,6 +191,7 @@ class MemTable
      */
     public function get(string $key, string $field = null)
     {
+        if(is_null($field)) return $this->getTable()->get($key);
         return $this->getTable()->get($key, $field);
     }
 
